@@ -48,6 +48,12 @@ async function run() {
         res.json(result);
     })
 
+    app.delete('/destination/:id', async(req, res) => {
+      const {id} = req.params;
+      const result = await destinationCollection.deleteOne({_id: new ObjectId(id)});
+      res.json(result);
+    })
+
     app.post('/destination', async(req, res) => {
         const destinationData = req.body;
         console.log(destinationData);
