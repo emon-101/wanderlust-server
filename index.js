@@ -24,11 +24,17 @@ async function run() {
     
     const db = client.db("wanderlust");
     const destinationCollection = db.collection("destinations");
+    const bookingCollection = db.collection("bookings");
 
     app.get('/destination', async(req, res) => {
         const result = await destinationCollection.find().toArray();
         res.json(result);
     });
+
+    app.get('/booking', async(req, res) => {
+      const result = await bookingCollection.find().toArray();
+      res.json(result);
+    })
 
     app.get('/destination/:id', async(req, res) => {
         const {id} = req.params;
@@ -54,9 +60,14 @@ async function run() {
       res.json(result);
     })
 
+    app.post('/booking', async(req, res) => {
+      const bookingData = req.body;
+      const result = await bookingCollection.insertOne(bookingData);
+      res.json(result);
+    })
+
     app.post('/destination', async(req, res) => {
         const destinationData = req.body;
-        console.log(destinationData);
         const result = await destinationCollection.insertOne(destinationData);
         res.json(result);
     })
